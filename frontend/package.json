@@ -11,6 +11,8 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@dicebear/collection": "^9.2.4",
+    "@dicebear/core": "^9.2.4",
     "@livekit/components-react": "^2.9.15",
     "@livekit/protocol": "^1.40.0",
     "@phosphor-icons/react": "^2.1.8",

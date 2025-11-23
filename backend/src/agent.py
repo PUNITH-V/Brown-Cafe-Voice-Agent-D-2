@@ -32,20 +32,25 @@ load_dotenv(".env")
 class Assistant(Agent):
     def __init__(self) -> None:
         super().__init__(
-            instructions="""You are a friendly and enthusiastic barista at Murf Coffee Shop. The user is interacting with you via voice.
+            instructions="""You are a friendly and enthusiastic barista at Brown Cafe. The user is interacting with you via voice.
             Your job is to take coffee orders and ensure all order details are complete.
             
-            You need to collect the following information for each order:
-            1. Drink type (e.g., latte, cappuccino, espresso, americano, mocha, cold brew)
-            2. Size (small, medium, or large)
-            3. Milk type (whole milk, skim milk, oat milk, almond milk, soy milk, or no milk)
-            4. Extras (e.g., extra shot, whipped cream, caramel drizzle, vanilla syrup, sugar-free options)
-            5. Customer name for the order
+            IMPORTANT: You MUST use the provided tools to update the order:
+            - When customer mentions a drink, IMMEDIATELY call update_drink_type tool
+            - When customer mentions size, IMMEDIATELY call update_size tool
+            - When customer mentions milk, IMMEDIATELY call update_milk tool
+            - When customer mentions extras, IMMEDIATELY call add_extra tool
+            - When customer provides their name, IMMEDIATELY call update_name tool
+            - When all information is collected, call save_order tool
+            
+            You need to collect:
+            1. Drink type (latte, cappuccino, espresso, americano, mocha, cold brew)
+            2. Size (small, medium, large)
+            3. Milk type (whole milk, skim milk, oat milk, almond milk, soy milk, no milk)
+            4. Extras (extra shot, whipped cream, caramel drizzle, vanilla syrup)
+            5. Customer name
             
             Be conversational and friendly. Ask clarifying questions one at a time if information is missing.
-            Once you have all the information, use the save_order tool to save the order.
-            After saving, confirm the order details to the customer and thank them.
-            
             Keep your responses natural and concise without complex formatting, emojis, or asterisks.""",
         )
         
@@ -93,96 +98,59 @@ class Assistant(Agent):
             extras_html = f'<div style="margin: 0;">{extras_items}</div>'
         
         html = f"""
-        <div style="font-family: 'Segoe UI', Arial, sans-serif; padding: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; max-width: 260px; margin: 0 auto; color: white; box-shadow: 0 6px 20px rgba(0,0,0,0.3);">
-            <div style="text-align: center; margin-bottom: 10px;">
-                <h2 style="margin: 0; font-size: 17px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px;">
-                    <span style="font-size: 20px;">☕</span>
-                    <span>Murf Coffee</span>
+        <div style="font-family: 'Inter', -apple-system, sans-serif; padding: 16px; background: linear-gradient(135deg, #3a3330 0%, #2a2522 100%); border-radius: 2px; max-width: 280px; margin: 0 auto; color: #a89584; box-shadow: 0 8px 32px rgba(0,0,0,0.4); border: 1px solid #8b7355/20;">
+            <div style="text-align: center; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #8b7355/20;">
+                <h2 style="margin: 0; font-size: 14px; font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; color: #8b7355;">
+                    <span style="font-size: 16px; margin-right: 8px;">☕</span>
+                    <span>Brown Cafe</span>
                 </h2>
             </div>
             
-            <div style="background: white; border-radius: 10px; padding: 12px; color: #333; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-                <h3 style="margin: 0 0 10px 0; color: #667eea; text-align: center; font-size: 14px; font-weight: 600; border-bottom: 2px solid #e8eaf6; padding-bottom: 6px;">Your Order</h3>
+            <div style="background: #1a1816; border-radius: 2px; padding: 14px; color: #a89584; border: 1px solid #8b7355/10;">
+                <h3 style="margin: 0 0 12px 0; color: #8b7355; text-align: center; font-size: 12px; font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; padding-bottom: 8px; border-bottom: 1px solid #8b7355/20;">Your Order</h3>
                 
                 <!-- Drink Visualization -->
-                <div style="display: flex; justify-content: center; align-items: center; margin: 10px 0; padding: 14px; background: linear-gradient(to bottom, #f8f9fa 0%, #e9ecef 100%); border-radius: 10px;">
+                <div style="display: flex; justify-content: center; align-items: center; margin: 12px 0; padding: 16px; background: #2a2522; border-radius: 2px; border: 1px solid #8b7355/10;">
                     <div style="position: relative; display: inline-block;">
-                        <!-- Simple Modern Cup -->
-                        <div style="position: relative; width: {cup_size['width']}; height: {cup_size['height']}; background: linear-gradient(to bottom, {drink_color} 0%, {drink_color} 85%, #3e2723 100%); border-radius: 0 0 15px 15px; box-shadow: 0 6px 12px rgba(0,0,0,0.2), inset -5px 0 10px rgba(0,0,0,0.1), inset 5px 0 10px rgba(255,255,255,0.1); border: 3px solid #3e2723; border-top: none;">
+                        <!-- Minimalist Cup -->
+                        <div style="position: relative; width: {cup_size['width']}; height: {cup_size['height']}; background: linear-gradient(to bottom, {drink_color} 0%, {drink_color} 85%, #3e2723 100%); border-radius: 0 0 12px 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.3), inset -3px 0 8px rgba(0,0,0,0.2), inset 3px 0 8px rgba(255,255,255,0.1); border: 2px solid #3e2723; border-top: none;">
                             <!-- Cup Top/Rim -->
-                            <div style="position: absolute; top: -8px; left: -3px; right: -3px; height: 12px; background: {drink_color}; border: 3px solid #3e2723; border-radius: 50%; box-shadow: inset 0 -2px 4px rgba(0,0,0,0.3);"></div>
+                            <div style="position: absolute; top: -6px; left: -2px; right: -2px; height: 10px; background: {drink_color}; border: 2px solid #3e2723; border-radius: 50%; box-shadow: inset 0 -2px 4px rgba(0,0,0,0.3);"></div>
                             
                             <!-- Whipped Cream -->
-                            {f'''<div style="position: absolute; top: -25px; left: 50%; transform: translateX(-50%); width: calc(100% - 10px); height: 35px; background: radial-gradient(ellipse at center, #FFFEF7 0%, #FFF8E7 50%, #F5E6D3 100%); border-radius: 50% 50% 40% 40%; box-shadow: 0 2px 6px rgba(0,0,0,0.15); border: 2px solid #F0E5D8;"></div>
-                            <div style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 60%; height: 20px; background: radial-gradient(circle, #FFFFFF 0%, #FFFEF7 100%); border-radius: 50%; opacity: 0.9;"></div>''' if has_whipped_cream else ''}
+                            {f'''<div style="position: absolute; top: -22px; left: 50%; transform: translateX(-50%); width: calc(100% - 8px); height: 30px; background: radial-gradient(ellipse at center, #FFFEF7 0%, #FFF8E7 50%, #F5E6D3 100%); border-radius: 50% 50% 40% 40%; box-shadow: 0 2px 6px rgba(0,0,0,0.2); border: 1px solid #F0E5D8;"></div>
+                            <div style="position: absolute; top: -26px; left: 50%; transform: translateX(-50%); width: 55%; height: 18px; background: radial-gradient(circle, #FFFFFF 0%, #FFFEF7 100%); border-radius: 50%; opacity: 0.9;"></div>''' if has_whipped_cream else ''}
                             
                             <!-- Cup Handle -->
-                            <div style="position: absolute; right: -22px; top: 25%; width: 28px; height: 40%; border: 4px solid #3e2723; border-left: none; border-radius: 0 50% 50% 0; background: linear-gradient(to right, transparent 0%, {drink_color} 50%); opacity: 0.8;"></div>
+                            <div style="position: absolute; right: -20px; top: 25%; width: 24px; height: 40%; border: 3px solid #3e2723; border-left: none; border-radius: 0 50% 50% 0; background: linear-gradient(to right, transparent 0%, {drink_color} 50%); opacity: 0.7;"></div>
                         </div>
                         
                         <!-- Size Badge -->
-                        <div style="text-align: center; margin-top: 12px;">
-                            <span style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 5px 14px; border-radius: 14px; font-weight: 700; font-size: 11px; letter-spacing: 1.2px; box-shadow: 0 2px 6px rg
-                                  fill="url(#cupGradient)" 
-                                  opacity="0.3"/>
-                            
-                            <!-- Cup Handle -->
-                            <path d="M 150 80 Q 180 80 180 120 Q 180 160 150 160" 
-                                  fill="none" 
-                                  stroke="#2c1810" 
-                                  stroke-width="8" 
-                                  stroke-linecap="round"/>
-                            <path d="M 150 85 Q 175 85 175 120 Q 175 155 150 155" 
-                                  fill="none" 
-                                  stroke="{drink_color}" 
-                                  stroke-width="5" 
-                                  stroke-linecap="round" 
-                                  opacity="0.6"/>
-                            
-                            <!-- Whipped Cream -->
-                            {f'''
-                            <ellipse cx="90" cy="15" rx="55" ry="25" fill="#FFFAF0" stroke="#F5DEB3" stroke-width="2"/>
-                            <ellipse cx="70" cy="10" rx="20" ry="15" fill="#FFFFFF" opacity="0.8"/>
-                            <ellipse cx="110" cy="10" rx="20" ry="15" fill="#FFFFFF" opacity="0.8"/>
-                            <ellipse cx="90" cy="5" rx="18" ry="12" fill="#FFFFFF" opacity="0.9"/>
-                            ''' if has_whipped_cream else ''}
-                            
-                            <!-- Gradient Definition -->
-                            <defs>
-                                <linearGradient id="cupGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" style="stop-color:black;stop-opacity:0.3" />
-                                    <stop offset="50%" style="stop-color:white;stop-opacity:0.1" />
-                                    <stop offset="100%" style="stop-color:black;stop-opacity:0.2" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                        
-                        <!-- Size Label -->
                         <div style="text-align: center; margin-top: 10px;">
-                            <span style="display: inline-block; background: #667eea; color: white; padding: 4px 12px; border-radius: 12px; font-weight: 700; font-size: 12px; letter-spacing: 1px;">
-                                {self.order_state["size"].upper() if self.order_state["size"] else "SELECT SIZE"}
+                            <span style="display: inline-block; background: #8b7355; color: #1a1816; padding: 4px 12px; border-radius: 1px; font-weight: 300; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                {self.order_state["size"].upper() if self.order_state["size"] else "SIZE"}
                             </span>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Order Details -->
-                <div style="margin-top: 10px; background: #f8f9fa; border-radius: 8px; padding: 8px; font-size: 12px;">
-                    <div style="display: grid; grid-template-columns: auto 1fr; gap: 5px 10px; align-items: start;">
-                        <strong style="color: #667eea;">Drink:</strong>
-                        <span>{self.order_state["drinkType"] or "Not selected"}</span>
+                <div style="margin-top: 12px; background: #2a2522; border-radius: 2px; padding: 10px; font-size: 11px; border: 1px solid #8b7355/10;">
+                    <div style="display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; align-items: start;">
+                        <strong style="color: #8b7355; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; font-size: 10px;">Drink:</strong>
+                        <span style="color: #a89584;">{self.order_state["drinkType"] or "—"}</span>
                         
-                        <strong style="color: #667eea;">Size:</strong>
-                        <span>{self.order_state["size"] or "Not selected"}</span>
+                        <strong style="color: #8b7355; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; font-size: 10px;">Size:</strong>
+                        <span style="color: #a89584;">{self.order_state["size"] or "—"}</span>
                         
-                        <strong style="color: #667eea;">Milk:</strong>
-                        <span>{self.order_state["milk"] or "Not selected"}</span>
+                        <strong style="color: #8b7355; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; font-size: 10px;">Milk:</strong>
+                        <span style="color: #a89584;">{self.order_state["milk"] or "—"}</span>
                         
-                        <strong style="color: #667eea;">Extras:</strong>
-                        <div>{extras_html if self.order_state["extras"] else '<span style="color: #999; font-size: 11px;">None</span>'}</div>
+                        <strong style="color: #8b7355; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; font-size: 10px;">Extras:</strong>
+                        <div style="color: #a89584;">{extras_html if self.order_state["extras"] else '<span style="color: #6b5d52; font-size: 10px;">—</span>'}</div>
                         
-                        <strong style="color: #667eea;">Name:</strong>
-                        <span>{self.order_state["name"] or "Not provided"}</span>
+                        <strong style="color: #8b7355; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; font-size: 10px;">Name:</strong>
+                        <span style="color: #a89584;">{self.order_state["name"] or "—"}</span>
                     </div>
                 </div>
             </div>
@@ -211,34 +179,34 @@ class Assistant(Agent):
         order_time = datetime.now().strftime("%B %d, %Y at %I:%M %p")
         
         html = f"""
-        <div style="font-family: 'Courier New', monospace; padding: 20px; background: white; border-radius: 12px; max-width: 350px; margin: 0 auto; color: #333; box-shadow: 0 10px 40px rgba(0,0,0,0.3); border: 2px dashed #d4a574;">
-            <div style="text-align: center; border-bottom: 2px dashed #d4a574; padding-bottom: 16px; margin-bottom: 16px;">
-                <div style="font-size: 32px; margin-bottom: 8px;">☕</div>
-                <h2 style="margin: 0; font-size: 22px; font-weight: bold; color: #8b4513;">MURF COFFEE SHOP</h2>
-                <p style="margin: 4px 0 0 0; font-size: 12px; color: #666;">Order Receipt</p>
+        <div style="font-family: 'Inter', -apple-system, sans-serif; padding: 24px; background: #f5f3f0; border-radius: 2px; max-width: 380px; margin: 0 auto; color: #3a3330; box-shadow: 0 12px 48px rgba(0,0,0,0.2); border: 1px solid #8b7355/20;">
+            <div style="text-align: center; border-bottom: 1px solid #8b7355/20; padding-bottom: 18px; margin-bottom: 18px;">
+                <div style="font-size: 28px; margin-bottom: 10px; opacity: 0.8;">☕</div>
+                <h2 style="margin: 0; font-size: 18px; font-weight: 300; letter-spacing: 0.3em; color: #8b7355; text-transform: uppercase;">Brown Cafe</h2>
+                <p style="margin: 6px 0 0 0; font-size: 11px; color: #6b5d52; letter-spacing: 0.2em; text-transform: uppercase;">Order Receipt</p>
             </div>
             
-            <div style="margin-bottom: 16px;">
-                <p style="margin: 4px 0; font-size: 13px;"><strong>Order #:</strong> {datetime.now().strftime('%Y%m%d%H%M%S')}</p>
-                <p style="margin: 4px 0; font-size: 13px;"><strong>Date:</strong> {order_time}</p>
-                <p style="margin: 4px 0; font-size: 13px;"><strong>Customer:</strong> {self.order_state["name"]}</p>
+            <div style="margin-bottom: 18px;">
+                <p style="margin: 6px 0; font-size: 12px; color: #6b5d52;"><strong style="font-weight: 400; color: #8b7355;">Order #:</strong> {datetime.now().strftime('%Y%m%d%H%M%S')}</p>
+                <p style="margin: 6px 0; font-size: 12px; color: #6b5d52;"><strong style="font-weight: 400; color: #8b7355;">Date:</strong> {order_time}</p>
+                <p style="margin: 6px 0; font-size: 12px; color: #6b5d52;"><strong style="font-weight: 400; color: #8b7355;">Customer:</strong> {self.order_state["name"]}</p>
             </div>
             
-            <div style="border-top: 2px dashed #d4a574; border-bottom: 2px dashed #d4a574; padding: 12px 0; margin: 16px 0;">
-                <p style="margin: 8px 0; font-size: 14px;"><strong>ITEM:</strong> {self.order_state["drinkType"].title()}</p>
-                <p style="margin: 8px 0; font-size: 14px; padding-left: 20px;">Size: {self.order_state["size"].title()}</p>
-                <p style="margin: 8px 0; font-size: 14px; padding-left: 20px;">Milk: {self.order_state["milk"]}</p>
-                <p style="margin: 8px 0; font-size: 14px; padding-left: 20px;">Extras: {extras_list}</p>
+            <div style="border-top: 1px solid #8b7355/20; border-bottom: 1px solid #8b7355/20; padding: 14px 0; margin: 18px 0;">
+                <p style="margin: 10px 0; font-size: 13px; color: #3a3330;"><strong style="font-weight: 400; color: #8b7355;">ITEM:</strong> {self.order_state["drinkType"].title()}</p>
+                <p style="margin: 10px 0; font-size: 13px; padding-left: 20px; color: #6b5d52;">Size: {self.order_state["size"].title()}</p>
+                <p style="margin: 10px 0; font-size: 13px; padding-left: 20px; color: #6b5d52;">Milk: {self.order_state["milk"]}</p>
+                <p style="margin: 10px 0; font-size: 13px; padding-left: 20px; color: #6b5d52;">Extras: {extras_list}</p>
             </div>
             
-            <div style="text-align: center; margin-top: 16px; padding-top: 16px; border-top: 2px dashed #d4a574;">
-                <p style="margin: 8px 0; font-size: 18px; font-weight: bold; color: #8b4513;">✓ ORDER CONFIRMED</p>
-                <p style="margin: 8px 0; font-size: 13px; color: #666;">Your order will be ready shortly!</p>
+            <div style="text-align: center; margin-top: 18px; padding-top: 18px; border-top: 1px solid #8b7355/20;">
+                <p style="margin: 10px 0; font-size: 16px; font-weight: 300; color: #8b7355; letter-spacing: 0.2em; text-transform: uppercase;">✓ Confirmed</p>
+                <p style="margin: 10px 0; font-size: 12px; color: #6b5d52;">Your order will be ready shortly</p>
             </div>
             
-            <div style="text-align: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid #e0e0e0;">
-                <p style="margin: 4px 0; font-size: 11px; color: #999;">Thank you for choosing Murf Coffee!</p>
-                <p style="margin: 4px 0; font-size: 11px; color: #999;">Powered by Murf Falcon TTS ⚡</p>
+            <div style="text-align: center; margin-top: 18px; padding-top: 14px; border-top: 1px solid #8b7355/10;">
+                <p style="margin: 5px 0; font-size: 10px; color: #6b5d52/60; letter-spacing: 0.1em;">Thank you for choosing Brown Cafe</p>
+                <p style="margin: 5px 0; font-size: 10px; color: #6b5d52/60; letter-spacing: 0.1em;">Powered by Murf Falcon TTS</p>
             </div>
         </div>
         """

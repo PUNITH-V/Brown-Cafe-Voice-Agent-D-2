@@ -1,10 +1,24 @@
 import { Button } from '@/components/livekit/button';
 
+function MinimalLine() {
+  return (
+    <div className="w-16 h-px bg-gradient-to-r from-transparent via-[#8b7355] to-transparent mb-8 opacity-40"></div>
+  );
+}
+
 function CoffeeIcon() {
   return (
-    <div className="relative mb-8">
-      <div className="text-8xl animate-bounce">☕</div>
-      <div className="absolute -top-2 -right-2 text-4xl animate-pulse">✨</div>
+    <div className="relative mb-12">
+      {/* Minimal circle frame */}
+      <div className="absolute inset-0 -m-6 border border-[#8b7355]/20 rounded-full"></div>
+      
+      {/* Subtle glow */}
+      <div className="absolute inset-0 blur-2xl opacity-20 bg-[#8b7355] animate-pulse-slow"></div>
+      
+      {/* Main coffee cup */}
+      <div className="relative">
+        <div className="text-7xl filter drop-shadow-lg">☕</div>
+      </div>
     </div>
   );
 }
@@ -20,89 +34,174 @@ export const WelcomeView = ({
   ref,
 }: React.ComponentProps<'div'> & WelcomeViewProps) => {
   return (
-    <div ref={ref} className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 relative overflow-hidden">
-      {/* Animated Background Elements */}
+    <div ref={ref} className="min-h-screen bg-gradient-to-br from-[#2a2522] via-[#1a1816] to-[#2a2522] relative overflow-hidden">
+      {/* Minimalist Grid Pattern */}
+      <div className="absolute inset-0 opacity-[0.03]" style={{
+        backgroundImage: `linear-gradient(#8b7355 1px, transparent 1px), linear-gradient(90deg, #8b7355 1px, transparent 1px)`,
+        backgroundSize: '50px 50px'
+      }}></div>
+      
+      {/* Subtle Accent Lines */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-10 text-6xl opacity-5 animate-float">☕</div>
-        <div className="absolute top-40 right-20 text-5xl opacity-5 animate-float-delayed">🥐</div>
-        <div className="absolute bottom-32 left-1/4 text-7xl opacity-5 animate-float">🍰</div>
-        <div className="absolute bottom-20 right-1/3 text-6xl opacity-5 animate-float-delayed">🧁</div>
+        <div className="absolute top-0 left-1/2 w-px h-full bg-gradient-to-b from-transparent via-[#8b7355]/10 to-transparent"></div>
+        <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#8b7355]/10 to-transparent"></div>
+      </div>
+      
+      {/* Minimal Floating Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-20 left-10 text-5xl opacity-5 animate-float text-[#8b7355]">☕</div>
+        <div className="absolute bottom-32 right-20 text-5xl opacity-5 animate-float-delayed text-[#8b7355]">☕</div>
         
         {/* Subtle glow effects */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-amber-600/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#8b7355]/5 rounded-full blur-3xl animate-pulse-slow"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#6b5d52]/5 rounded-full blur-3xl animate-pulse-slow" style={{animationDelay: '2s'}}></div>
       </div>
 
       <section className="relative z-10 flex flex-col items-center justify-center text-center min-h-screen px-4">
+        {/* Minimal line top */}
+        <MinimalLine />
+        
         {/* Logo/Icon */}
         <CoffeeIcon />
 
-        {/* Title */}
-        <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-2xl">
-          Murf Coffee Shop
+        {/* Title - Minimalist */}
+        <h1 className="text-6xl md:text-7xl font-light tracking-[0.3em] text-[#8b7355] mb-3 animate-fade-in uppercase">
+          BROWN CAFE
         </h1>
+        
+        <h2 className="text-sm md:text-base font-light text-[#6b5d52]/60 mb-12 animate-fade-in-delay tracking-[0.4em] uppercase">
+          Est. 2025
+        </h2>
 
-        {/* Subtitle */}
-        <p className="text-xl md:text-2xl text-amber-400 mb-3 max-w-2xl leading-relaxed font-medium">
-          Your AI Barista is Ready to Take Your Order
+        {/* Minimal line */}
+        <div className="w-24 h-px bg-gradient-to-r from-transparent via-[#8b7355]/40 to-transparent mb-8"></div>
+
+        {/* Subtitle - Clean */}
+        <p className="text-lg md:text-xl text-[#a89584] mb-2 max-w-md leading-relaxed font-light tracking-wide animate-fade-in-delay">
+          AI-Powered Coffee Ordering
         </p>
 
-        {/* Description */}
-        <p className="text-base md:text-lg text-gray-300 mb-10 max-w-xl">
-          Order your favorite coffee with voice • Fast • Easy • Delicious
+        {/* Description - Minimal */}
+        <p className="text-sm md:text-base text-[#6b5d52]/50 mb-16 max-w-lg font-light animate-fade-in-delay-2">
+          Voice • Precision • Simplicity
         </p>
 
-        {/* Start Button */}
+        {/* Minimalist Start Button */}
         <Button 
           variant="primary" 
           size="lg" 
           onClick={onStartCall} 
-          className="mt-4 px-12 py-6 text-lg font-semibold bg-gradient-to-r from-amber-500 to-orange-500 text-black hover:from-amber-400 hover:to-orange-400 hover:scale-105 transition-all duration-300 shadow-2xl shadow-amber-500/50 rounded-full border-2 border-amber-400"
+          className="group relative mt-4 px-12 py-6 text-base font-light uppercase tracking-[0.3em] bg-[#8b7355] text-white hover:bg-[#6b5d52] transition-all duration-500 border border-[#8b7355]/30 hover:border-[#8b7355] shadow-lg hover:shadow-xl hover:scale-105 animate-fade-in-delay-3"
         >
-          🎤 {startButtonText}
+          <span className="relative z-10 flex items-center gap-3">
+            <span className="text-lg">○</span>
+            <span>{startButtonText}</span>
+          </span>
         </Button>
+        
+        {/* Tagline */}
+        <p className="mt-8 text-[#6b5d52]/40 text-xs font-light tracking-widest animate-fade-in-delay-3 uppercase">
+          Powered by AI
+        </p>
 
-        {/* Features */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl">
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border-2 border-gray-700 shadow-lg hover:border-amber-500/50 transition-colors">
-            <div className="text-4xl mb-3">🎙️</div>
-            <h3 className="text-white font-semibold mb-2">Voice Ordering</h3>
-            <p className="text-gray-400 text-sm">Just speak naturally to place your order</p>
+        {/* Minimal Feature Cards */}
+        <div className="mt-32 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl animate-fade-in-delay-4">
+          <div className="group relative bg-[#2a2522]/40 backdrop-blur-sm p-8 border border-[#8b7355]/10 hover:border-[#8b7355]/30 transition-all duration-500 hover:-translate-y-2">
+            <div className="relative">
+              <div className="text-4xl mb-4 opacity-60 group-hover:opacity-100 transition-opacity duration-500">🎙️</div>
+              <h3 className="text-[#a89584] text-base font-light mb-2 tracking-wider uppercase">Voice</h3>
+              <p className="text-[#6b5d52]/60 text-sm font-light">Natural conversation</p>
+            </div>
           </div>
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border-2 border-gray-700 shadow-lg hover:border-amber-500/50 transition-colors">
-            <div className="text-4xl mb-3">⚡</div>
-            <h3 className="text-white font-semibold mb-2">Lightning Fast</h3>
-            <p className="text-gray-400 text-sm">Powered by Murf Falcon TTS</p>
+          
+          <div className="group relative bg-[#2a2522]/40 backdrop-blur-sm p-8 border border-[#8b7355]/10 hover:border-[#8b7355]/30 transition-all duration-500 hover:-translate-y-2">
+            <div className="relative">
+              <div className="text-4xl mb-4 opacity-60 group-hover:opacity-100 transition-opacity duration-500">⚡</div>
+              <h3 className="text-[#a89584] text-base font-light mb-2 tracking-wider uppercase">Speed</h3>
+              <p className="text-[#6b5d52]/60 text-sm font-light">Instant response</p>
+            </div>
           </div>
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border-2 border-gray-700 shadow-lg hover:border-amber-500/50 transition-colors">
-            <div className="text-4xl mb-3">✨</div>
-            <h3 className="text-white font-semibold mb-2">Smart AI</h3>
-            <p className="text-gray-400 text-sm">Understands your preferences perfectly</p>
+          
+          <div className="group relative bg-[#2a2522]/40 backdrop-blur-sm p-8 border border-[#8b7355]/10 hover:border-[#8b7355]/30 transition-all duration-500 hover:-translate-y-2">
+            <div className="relative">
+              <div className="text-4xl mb-4 opacity-60 group-hover:opacity-100 transition-opacity duration-500">✨</div>
+              <h3 className="text-[#a89584] text-base font-light mb-2 tracking-wider uppercase">Smart</h3>
+              <p className="text-[#6b5d52]/60 text-sm font-light">Perfect understanding</p>
+            </div>
           </div>
+        </div>
+        
+        {/* Minimal bottom line */}
+        <div className="mt-20 animate-fade-in-delay-4">
+          <MinimalLine />
         </div>
       </section>
 
-      {/* Footer */}
-      <div className="fixed bottom-6 left-0 flex w-full items-center justify-center z-20">
-        <p className="text-gray-400 text-sm font-medium">
-          Built with ❤️ using LiveKit Agents & Murf Falcon
+      {/* Minimal Footer */}
+      <div className="fixed bottom-8 left-0 flex w-full items-center justify-center z-20">
+        <p className="text-[#6b5d52]/40 text-xs font-light tracking-wider">
+          LiveKit × Murf Falcon
         </p>
       </div>
 
       <style jsx>{`
         @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(5deg); }
         }
         @keyframes float-delayed {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-15px); }
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-15px) rotate(-5deg); }
+        }
+        @keyframes pulse-slow {
+          0%, 100% { opacity: 0.2; transform: scale(1); }
+          50% { opacity: 0.3; transform: scale(1.1); }
+        }
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes bounce-slow {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
+        }
+        @keyframes fade-in {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
         .animate-float {
           animation: float 6s ease-in-out infinite;
         }
         .animate-float-delayed {
           animation: float-delayed 8s ease-in-out infinite;
+        }
+        .animate-pulse-slow {
+          animation: pulse-slow 4s ease-in-out infinite;
+        }
+        .animate-spin-slow {
+          animation: spin-slow 8s linear infinite;
+        }
+        .animate-bounce-slow {
+          animation: bounce-slow 3s ease-in-out infinite;
+        }
+        .animate-fade-in {
+          animation: fade-in 0.8s ease-out forwards;
+        }
+        .animate-fade-in-delay {
+          animation: fade-in 0.8s ease-out 0.2s forwards;
+          opacity: 0;
+        }
+        .animate-fade-in-delay-2 {
+          animation: fade-in 0.8s ease-out 0.4s forwards;
+          opacity: 0;
+        }
+        .animate-fade-in-delay-3 {
+          animation: fade-in 0.8s ease-out 0.6s forwards;
+          opacity: 0;
+        }
+        .animate-fade-in-delay-4 {
+          animation: fade-in 0.8s ease-out 0.8s forwards;
+          opacity: 0;
         }
       `}</style>
     </div>
