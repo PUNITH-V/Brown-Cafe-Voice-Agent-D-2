@@ -1,17 +1,28 @@
-# Voice Agents - AI Voice Assistant
+# ☕ Murf Coffee Shop - AI Voice Barista
 
-A real-time AI voice agent application built with LiveKit, Murf Falcon TTS, Google Gemini, and Deepgram STT.
+A real-time AI voice coffee ordering system built with LiveKit Agents, Murf Falcon TTS, Google Gemini, and Deepgram STT.
 
-## Features
+> **Part of the Murf AI Voice Agents Challenge - Day 2**
 
-- 🎙️ Real-time voice interaction with AI
-- ⚡ Ultra-fast text-to-speech using Murf Falcon
-- 🧠 Powered by Google Gemini 2.5 Flash
-- 🎯 Accurate speech recognition with Deepgram Nova-3
-- 🎨 Modern, responsive UI with Next.js
-- 📹 Camera video streaming support
-- 🖥️ Screen sharing capabilities
-- 🌓 Light/dark theme switching
+[![GitHub](https://img.shields.io/badge/GitHub-Voice--Agents--Day2-blue?logo=github)](https://github.com/Gangadhar-NG-CODER/Voice-Agents-Day2)
+[![LiveKit](https://img.shields.io/badge/Built%20with-LiveKit-00ADD8?logo=livekit)](https://livekit.io/)
+[![Murf](https://img.shields.io/badge/Powered%20by-Murf%20Falcon-orange)](https://murf.ai/)
+
+## ✨ Features
+
+### Coffee Ordering
+- 🎙️ **Voice Ordering** - Natural conversation-based coffee ordering
+- 📊 **Real-time Visualization** - Live order display with dynamic cup rendering
+- 🧾 **Automated Receipts** - Professional receipt generation after order completion
+- 🔄 **Order State Management** - Tracks drink type, size, milk, extras, and customer name
+- ✅ **Smart Validation** - Ensures all order details are collected before saving
+
+### Technical Features
+- ⚡ **Ultra-fast TTS** - Powered by Murf Falcon (fastest TTS API)
+- 🧠 **Intelligent AI** - Google Gemini 2.5 Flash for natural conversations
+- 🎯 **Accurate STT** - Deepgram Nova-3 for speech recognition
+- 🎨 **Modern Dark UI** - Sleek coffee shop themed interface
+- 💾 **Order Persistence** - Saves orders to JSON files with timestamps
 
 ## Tech Stack
 
@@ -41,8 +52,8 @@ A real-time AI voice agent application built with LiveKit, Murf Falcon TTS, Goog
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/Gangadhar-NG-CODER/Voice-Agents.git
-cd Voice-Agents
+git clone https://github.com/Gangadhar-NG-CODER/Voice-Agents-Day2.git
+cd Voice-Agents-Day2
 ```
 
 ### 2. Install uv (Python Package Manager)
@@ -216,8 +227,12 @@ MIT License - see LICENSE file for details
 
 **Gangadhar NG**
 - GitHub: [@Gangadhar-NG-CODER](https://github.com/Gangadhar-NG-CODER)
-- Repository: [Voice-Agents](https://github.com/Gangadhar-NG-CODER/Voice-Agents)
+- Repository: [Voice-Agents-Day2](https://github.com/Gangadhar-NG-CODER/Voice-Agents-Day2)
 
 ---
 
 ⭐ Star this repo if you find it helpful!
+
+## Live Demo
+
+Check out the demo video on LinkedIn: [#MurfAIVoiceAgentsChallenge](https://www.linkedin.com/feed/hashtag/murfaivoiceagentschallenge/)

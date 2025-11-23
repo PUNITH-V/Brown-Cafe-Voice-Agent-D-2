@@ -1,9 +1,12 @@
-# Agent Starter for React
+# Murf Coffee Shop - Frontend
 
-> 🎙️ **This is part of the AI Voice Agents Challenge by murf.ai**
+> ☕ **Coffee Shop Voice Ordering Interface**
 >
-> This frontend is designed to work with the Murf Falcon-powered backend for ultra-fast voice interactions.
-> See the [main README](../README.md) for complete setup instructions and challenge details.
+> This is the Next.js frontend for the Murf Coffee Shop AI Voice Barista.
+> Features dark-themed UI, real-time order visualization, and automated receipt generation.
+>
+> 📚 See the [main README](../README.md) for complete setup instructions.
+> 🔗 Repository: [Voice-Agents-Day2](https://github.com/Gangadhar-NG-CODER/Voice-Agents-Day2)
 
 This is a starter template for [LiveKit Agents](https://docs.livekit.io/agents) that provides a simple voice interface using the [LiveKit JavaScript SDK](https://github.com/livekit/client-sdk-js). It supports [voice](https://docs.livekit.io/agents/start/voice-ai), [transcriptions](https://docs.livekit.io/agents/build/text/), and [virtual avatars](https://docs.livekit.io/agents/integrations/avatar).
 

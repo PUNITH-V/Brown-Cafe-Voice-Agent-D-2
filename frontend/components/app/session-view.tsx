@@ -6,6 +6,8 @@ import type { AppConfig } from '@/app-config';
 import { ChatTranscript } from '@/components/app/chat-transcript';
 import { PreConnectMessage } from '@/components/app/preconnect-message';
 import { TileLayout } from '@/components/app/tile-layout';
+import { DrinkVisualization } from '@/components/app/drink-visualization';
+import { OrderReceipt } from '@/components/app/order-receipt';
 import {
   AgentControlBar,
   type ControlBarControls,
@@ -92,6 +94,12 @@ export const SessionView = ({
 
   return (
     <section className="bg-background relative z-10 h-full w-full overflow-hidden" {...props}>
+      {/* Drink Visualization */}
+      <DrinkVisualization />
+      
+      {/* Order Receipt */}
+      <OrderReceipt />
+      
       {/* Chat Transcript */}
       <div
         className={cn(

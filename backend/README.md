@@ -2,12 +2,22 @@
   <img src="./.github/assets/livekit-mark.png" alt="LiveKit logo" width="100" height="100">
 </a>
 
-# LiveKit Agents Starter - Python (with Murf Falcon TTS)
+# Murf Coffee Shop - Backend Agent
 
-> 🎙️ **This is part of the AI Voice Agents Challenge by murf.ai**
+> ☕ **AI Coffee Barista Backend**
 >
-> This backend is configured to use **Murf Falcon** - the consistently fastest TTS API - for ultra-fast voice synthesis.
-> See the [main README](../README.md) for complete setup instructions and challenge details.
+> This is the Python backend for the Murf Coffee Shop AI Voice Barista.
+> Built with LiveKit Agents, Murf Falcon TTS, Google Gemini, and Deepgram STT.
+>
+> Features:
+> - Voice-based coffee ordering with natural conversation
+> - Order state management (drink, size, milk, extras, name)
+> - Real-time order visualization generation
+> - Automated receipt creation
+> - JSON order persistence
+>
+> 📚 See the [main README](../README.md) for complete setup instructions.
+> 🔗 Repository: [Voice-Agents-Day2](https://github.com/Gangadhar-NG-CODER/Voice-Agents-Day2)
 
 A complete starter project for building voice AI apps with [LiveKit Agents for Python](https://github.com/livekit/agents) and [LiveKit Cloud](https://cloud.livekit.io/).
 
